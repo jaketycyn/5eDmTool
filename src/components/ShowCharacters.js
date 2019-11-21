@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { db } from "./Firebase";
 import CharacterCard from "./Design/CharacterCard";
-import useCollapse from "react-collapsed";
 
 function ShowNpcs() {
   const [npcs, setNpcs] = useState([]);

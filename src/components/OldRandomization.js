@@ -8,6 +8,12 @@ const OldRandomization = () => {
   const [name, setName] = useState("");
   const [race, setRace] = useState("");
   const [characterClass, setCharacterClass] = useState("");
+  const [maleDwarfName, setMaleDwarfName] = useState("");
+  const [maleElfName, setMaleElfName] = useState("");
+  const [maleHumanName, setMaleHumanName] = useState("");
+  const [femaleDwarfName, setFemaleDwarfName] = useState("");
+  const [femaleElfName, setFemaleElfName] = useState("");
+  const [femaleHumanName, setFemaleHumanName] = useState("");
   const [npcJob, setNpcJob] = useState("");
   // *** DATA ARRAYS FOR NOW ***
   const races = ["Dwarf", "Human", "Gnome"];
@@ -148,24 +154,60 @@ const OldRandomization = () => {
     "Mudlark/scavenger",
     "Stable master/head groom"
   ];
-  const humanNames = [
-    "harry",
-    "howard",
-    "hen",
-    "hay",
-    "heff",
-    "hugh",
-    "hubert"
+
+  const maleDwarfNames = [
+    "Medon Orlar",
+    "Jukel Carridin",
+    "Beragor Hamunt",
+    "Pyrdel Forras",
+    "Telinar Ero",
+    "Gerlin Iban"
   ];
-  const gnomeNames = [
-    "garry",
-    "greg",
-    "gobert",
-    "gilbert",
-    "gnomey",
-    "gnard",
-    "gnar",
-    "gerrard"
+
+  const femaleDwarfNames = [
+    "Ali Helral",
+    "Hanali Olro",
+    "Zena Carimas",
+    "Keladen Helrat",
+    "Zera Torney",
+    "Narina Galrow"
+  ];
+
+  const maleHumanNames = [
+    "Cecil Finch",
+    "Johnny Clemons",
+    "Lirinda Wecan",
+    "Herwig Florstedt",
+    "Elias Haynes",
+    "Rudolph Browning",
+    "Fernan Del Peral"
+  ];
+  const femaleHumanNames = [
+    "Statia Iusta",
+    "Isabetta Sforza",
+    "Auria Gellia",
+    "Emma Luna",
+    "Sophie Karner",
+    "Lucile McCray"
+  ];
+
+  const maleElfNames = [
+    "Felris",
+    "Fenran",
+    "Tarian",
+    "Hagan",
+    "Feralan",
+    "Deyran"
+  ];
+
+  const femaleElfNames = [
+    "Kani",
+    "Rinyla",
+    "Nava",
+    "Arianni",
+    "Valanna",
+    "Nonyla",
+    "Iovera"
   ];
   const merchantWares = ["Grain", "Wine", "Herbs", "Produce", "Antiques"];
 
@@ -173,7 +215,9 @@ const OldRandomization = () => {
   const randomName = () => {
     switch (race) {
       case "Human":
-        setName(humanNames[Math.floor(Math.random() * humanNames.length)]);
+        setName(
+          maleHumanNames[Math.floor(Math.random() * maleHumanNames.length)]
+        );
         break;
       case "Gnome":
         setName(gnomeNames[Math.floor(Math.random() * gnomeNames.length)]);
@@ -216,10 +260,41 @@ const OldRandomization = () => {
     setNpcJob(event.target.value);
   };
 
+  const randomMaleDwarfName = event => {
+    setMaleDwarfName(
+      maleDwarfNames[Math.floor(Math.random() * maleDwarfNames.length)]
+    );
+  };
+  const randomMaleHumanName = event => {
+    setMaleHumanName(
+      maleHumanNames[Math.floor(Math.random() * maleHumanNames.length)]
+    );
+  };
+  const randomMaleElfName = event => {
+    setMaleElfName(
+      maleElfNames[Math.floor(Math.random() * maleElfNames.length)]
+    );
+  };
+
+  const randomFemaleDwarfName = event => {
+    setFemaleDwarfName(
+      femaleDwarfNames[Math.floor(Math.random() * maleDwarfNames.length)]
+    );
+  };
+  const randomFemaleHumanName = event => {
+    setFemaleHumanName(
+      femaleHumanNames[Math.floor(Math.random() * maleHumanNames.length)]
+    );
+  };
+  const randomFemaleElfName = event => {
+    setFemaleElfName(
+      femaleElfNames[Math.floor(Math.random() * maleElfNames.length)]
+    );
+  };
   // useEffect(() => )
   return (
-    <div>
-      {/* //   <div>
+    // <div>
+    //   <div>
     //     <h1>5e Hero/Character creation Tool</h1>
     //     <button onClick={randomPlayerCharacter}>
     //       Click me to Create a Hero Character
@@ -237,8 +312,29 @@ const OldRandomization = () => {
     //     <input type="text" value={race} onChange={handleRaceChange} />
     //     <input type="text" value={npcJob} onChange={handleJobChange} />
     //     <button onClick={saveNpc}>Save NPC</button>
-    //   </div> */}
-      //{" "}
+    //   </div>
+    // </div>
+
+    // ** Random Elf Dwarf HUMAN NAMES
+
+    <div>
+      <button onClick={randomMaleDwarfName}>Random Dwarf Name</button>
+      <div style={{ fontSize: "20px" }}>Male Dwarf Name: {maleDwarfName}</div>
+      <button onClick={randomMaleHumanName}>Random Human Name</button>
+      <div style={{ fontSize: "20px" }}>Male Human Name: {maleHumanName}</div>
+      <button onClick={randomMaleElfName}>Random Elf Name</button>
+      <div style={{ fontSize: "20px" }}>Male Elf Name: {maleElfName}</div>
+      <hr />
+      <button onClick={randomFemaleDwarfName}>Random Dwarf Name</button>
+      <div style={{ fontSize: "20px" }}>
+        Female Dwarf Name: {femaleDwarfName}
+      </div>
+      <button onClick={randomFemaleHumanName}>Random Human Name</button>
+      <div style={{ fontSize: "20px" }}>
+        Female Human Name: {femaleHumanName}
+      </div>
+      <button onClick={randomFemaleElfName}>Random Elf Name</button>
+      <div style={{ fontSize: "20px" }}>Female Elf Name: {femaleElfName}</div>
     </div>
   );
 };
