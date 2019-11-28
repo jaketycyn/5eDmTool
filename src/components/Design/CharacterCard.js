@@ -8,6 +8,10 @@ const Main = styled.div`
   background: black;
   width: auto;
   height: 100%;
+  margin: 12px 0px;
+  border-radius: 14px;
+  box-shadow: 0px 0px 8px #ccc;
+  padding: 4px 16px 20px 16px;
 `;
 
 const TitleInfo = styled.h2`
@@ -30,8 +34,6 @@ const DeleteButton = styled.button`
 `;
 const deleteCharacter = e => {
   const characterID = e.target.parentElement.parentElement.id;
-
-  console.log(characterID);
   // db.collection("Npc")
   //   .doc(characterID)
   //   .delete()
