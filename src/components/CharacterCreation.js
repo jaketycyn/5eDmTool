@@ -13,29 +13,16 @@ import { npcProfessions } from "../Data/professions";
 // *** addd yup if validation is requierd ***
 import * as Yup from "yup";
 
-const StyledErrorDiv = styled.div`
-  color: red;
-  transition: all 0.1s;
-  padding: 0rem 2rem
-  font-size: 1.2rem;
-  font-weight: 500;
-  bottom: 0;
-  left: 0;
-  positon: absolute;
-`;
-
 const formikEnhancer = withFormik({
   mapPropsToValues: props => ({
     editorState: new EditorState.createEmpty(),
-    npcName: "",
+    npcFirstName: "",
+    npcLastName: "",
     npcRace: "",
     npcGender: "",
     npcProfession: ""
   }),
   validationSchema: Yup.object({
-    npcName: Yup.string()
-      .max(30, "Must be 30 characters or less")
-      .required("Required"),
     npcRace: Yup.string()
       .max(20, "Must be 20 characters or less")
       .required("Required"),
@@ -48,7 +35,8 @@ const formikEnhancer = withFormik({
 
     const htmlConverted = stateToHTML(values.editorState.getCurrentContent());
     db.collection("Npc").add({
-      npcName: values.npcName,
+      npcFirstName: values.npcFirstName,
+      npcLastName: values.npcLastName,
       npcRace: values.npcRace,
       npcGender: values.npcGender,
       npcProfession: values.npcProfession,
@@ -59,16 +47,6 @@ const formikEnhancer = withFormik({
   handleChange: e => {},
   displayName: "MyForm"
 });
-
-// const maleDwarfNames = [
-//   "Medon Orlar",
-//   "Jukel Carridin",
-//   "Beragor Hamunt",
-//   "Pyrdel Forras",
-//   "Telinar Ero",
-//   "Gerlin Iban"
-// ];
-
 //learn context so you can send this all down for easier callbacks
 const CharacterCreationForm = ({
   values,
@@ -114,7 +92,7 @@ const CharacterCreationForm = ({
         value={values.npcRace}
         // style={{ display: "block" }}
       >
-        <option value="" label="Select a color" />
+        <option value="" label="Select a Race" />
         <option value="dragonborn" label="Dragonborn" />
         <option value="dwarf" label="Dwarf" />
         <option value="elf" label="Elf" />
@@ -127,260 +105,401 @@ const CharacterCreationForm = ({
         <option value="orc" label="Orc" />
         <option value="tiefling" label="Tiefling" />
       </select>
-      <label htmlFor="npcName">Name</label>
-      {touched.npcName && errors.npcName ? (
-        <StyledErrorDiv>{errors.npcName}</StyledErrorDiv>
-      ) : null}
-      <button
+
+      {/* <select
+      id='npcSubRace'
+      name='npcSubRace'
+      type='input'
+      onChange={handleChange}
+      value={values.npcSubRace}
+      >
+        <option value='' label='subraces'/>
+
+
+      </select> */}
+      <label htmlFor="npcName">Name:</label>
+      <Button
         id="npcName"
         name="npcName"
         type="button"
-        value={values.npcName}
         onClick={e => {
           //find gender then race
           // *** MALE ***
           if (values.npcGender === "male") {
             if (values.npcRace === "dragonborn") {
-              let randomName =
+              let randomFirstName =
                 nameData.dragonborn.maleFirst[
                   Math.floor(
                     Math.random() * nameData.dragonborn.maleFirst.length
                   )
-                ] +
-                " " +
+                ];
+
+              let randomLastName =
                 nameData.dragonborn.lastName[
                   Math.floor(
                     Math.random() * nameData.dragonborn.lastName.length
                   )
                 ];
-              setFieldValue("npcName", randomName);
+
+              setFieldValue("npcFirstName", randomFirstName);
+              setFieldValue("npcLastName", randomLastName);
             } else if (values.npcRace === "dwarf") {
-              let randomName =
-                nameData.dwarf.maleFirst[
-                  Math.floor(Math.random() * nameData.dwarf.maleFirst.length)
-                ] +
-                " " +
-                nameData.dwarf.lastName[
-                  Math.floor(Math.random() * nameData.dwarf.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "dwarf") {
+                let randomFirstName =
+                  nameData.dwarf.maleFirst[
+                    Math.floor(Math.random() * nameData.dwarf.maleFirst.length)
+                  ];
+
+                let randomLastName =
+                  nameData.dwarf.lastName[
+                    Math.floor(Math.random() * nameData.dwarf.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "elf") {
-              let randomName =
-                nameData.elf.maleFirst[
-                  Math.floor(Math.random() * nameData.elf.maleFirst.length)
-                ] +
-                " " +
-                nameData.elf.lastName[
-                  Math.floor(Math.random() * nameData.elf.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "elf") {
+                let randomFirstName =
+                  nameData.elf.maleFirst[
+                    Math.floor(Math.random() * nameData.elf.maleFirst.length)
+                  ];
+
+                let randomLastName =
+                  nameData.elf.lastName[
+                    Math.floor(Math.random() * nameData.elf.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "gnome") {
-              let randomName =
-                nameData.gnome.maleFirst[
-                  Math.floor(Math.random() * nameData.gnome.maleFirst.length)
-                ] +
-                " " +
-                nameData.gnome.lastName[
-                  Math.floor(Math.random() * nameData.gnome.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "gnome") {
+                let randomFirstName =
+                  nameData.gnome.maleFirst[
+                    Math.floor(Math.random() * nameData.gnome.maleFirst.length)
+                  ];
+
+                let randomLastName =
+                  nameData.gnome.lastName[
+                    Math.floor(Math.random() * nameData.gnome.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "goblin") {
-              let randomName =
-                nameData.goblin.maleFirst[
-                  Math.floor(Math.random() * nameData.goblin.maleFirst.length)
-                ] +
-                " " +
-                nameData.goblin.lastName[
-                  Math.floor(Math.random() * nameData.goblin.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "goblin") {
+                let randomFirstName =
+                  nameData.goblin.maleFirst[
+                    Math.floor(Math.random() * nameData.goblin.maleFirst.length)
+                  ];
+
+                let randomLastName =
+                  nameData.goblin.lastName[
+                    Math.floor(Math.random() * nameData.goblin.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "halfElf") {
-              let randomName =
-                nameData.halfElf.maleFirst[
-                  Math.floor(Math.random() * nameData.halfElf.maleFirst.length)
-                ] +
-                " " +
-                nameData.halfElf.lastName[
-                  Math.floor(Math.random() * nameData.halfElf.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "halfElf") {
+                let randomFirstName =
+                  nameData.halfElf.maleFirst[
+                    Math.floor(
+                      Math.random() * nameData.halfElf.maleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.halfElf.lastName[
+                    Math.floor(Math.random() * nameData.halfElf.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "halfling") {
-              let randomName =
-                nameData.halfling.maleFirst[
-                  Math.floor(Math.random() * nameData.halfling.maleFirst.length)
-                ] +
-                " " +
-                nameData.halfling.lastName[
-                  Math.floor(Math.random() * nameData.halfling.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "halfling") {
+                let randomFirstName =
+                  nameData.halfling.maleFirst[
+                    Math.floor(
+                      Math.random() * nameData.halfling.maleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.halfling.lastName.prefix[
+                    Math.floor(
+                      Math.random() * nameData.halfling.lastName.prefix.length
+                    )
+                  ] +
+                  "" +
+                  nameData.halfling.lastName.suffix[
+                    Math.floor(
+                      Math.random() * nameData.halfling.lastName.suffix.length
+                    )
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "halfOrc") {
-              let randomName =
-                nameData.halfOrc.maleFirst[
-                  Math.floor(Math.random() * nameData.halfOrc.maleFirst.length)
-                ] +
-                " " +
-                nameData.halfOrc.lastName[
-                  Math.floor(Math.random() * nameData.halfOrc.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "halfOrc") {
+                let randomFirstName =
+                  nameData.halfOrc.maleFirst[
+                    Math.floor(
+                      Math.random() * nameData.halfOrc.maleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.halfOrc.lastName[
+                    Math.floor(Math.random() * nameData.halfOrc.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "human") {
-              let randomName =
-                nameData.human.maleFirst[
-                  Math.floor(Math.random() * nameData.human.maleFirst.length)
-                ] +
-                " " +
-                nameData.human.lastName[
-                  Math.floor(Math.random() * nameData.human.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "human") {
+                let randomFirstName =
+                  nameData.human.maleFirst[
+                    Math.floor(Math.random() * nameData.human.maleFirst.length)
+                  ];
+
+                let randomLastName =
+                  nameData.human.lastName[
+                    Math.floor(Math.random() * nameData.human.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "orc") {
-              let randomName =
-                nameData.orc.maleFirst[
-                  Math.floor(Math.random() * nameData.orc.maleFirst.length)
-                ] +
-                " " +
-                nameData.orc.lastName[
-                  Math.floor(Math.random() * nameData.orc.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "orc") {
+                let randomFirstName =
+                  nameData.orc.maleFirst.prefix[
+                    Math.floor(
+                      Math.random() * nameData.orc.maleFirst.prefix.length
+                    )
+                  ] +
+                  "'" +
+                  nameData.orc.suffix[
+                    Math.floor(Math.random() * nameData.orc.suffix.length)
+                  ];
+
+                let randomLastName =
+                  nameData.orc.lastName[
+                    Math.floor(Math.random() * nameData.orc.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "tiefling") {
-              let randomName =
-                nameData.tiefling.maleFirst[
-                  Math.floor(Math.random() * nameData.tiefling.maleFirst.length)
-                ] +
-                " " +
-                nameData.tiefling.lastName[
-                  Math.floor(Math.random() * nameData.tiefling.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "tiefling") {
+                let randomFirstName =
+                  nameData.tiefling.maleFirst[
+                    Math.floor(
+                      Math.random() * nameData.tiefling.maleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.tiefling.lastName[
+                    Math.floor(
+                      Math.random() * nameData.tiefling.lastName.length
+                    )
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             }
           }
-
           // *** FEMALE ***
           else if (values.npcGender === "female") {
             if (values.npcRace === "dragonborn") {
-              let randomName =
+              let randomFirstName =
                 nameData.dragonborn.femaleFirst[
                   Math.floor(
                     Math.random() * nameData.dragonborn.femaleFirst.length
                   )
-                ] +
-                " " +
+                ];
+
+              let randomLastName =
                 nameData.dragonborn.lastName[
                   Math.floor(
                     Math.random() * nameData.dragonborn.lastName.length
                   )
                 ];
-              setFieldValue("npcName", randomName);
+
+              setFieldValue("npcFirstName", randomFirstName);
+              setFieldValue("npcLastName", randomLastName);
             } else if (values.npcRace === "dwarf") {
-              let randomName =
-                nameData.dwarf.femaleFirst[
-                  Math.floor(Math.random() * nameData.dwarf.femaleFirst.length)
-                ] +
-                " " +
-                nameData.dwarf.lastName[
-                  Math.floor(Math.random() * nameData.dwarf.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "dwarf") {
+                let randomFirstName =
+                  nameData.dwarf.femaleFirst[
+                    Math.floor(
+                      Math.random() * nameData.dwarf.femaleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.dwarf.lastName[
+                    Math.floor(Math.random() * nameData.dwarf.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "elf") {
-              let randomName =
-                nameData.elf.femaleFirst[
-                  Math.floor(Math.random() * nameData.elf.femaleFirst.length)
-                ] +
-                " " +
-                nameData.elf.lastName[
-                  Math.floor(Math.random() * nameData.elf.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "elf") {
+                let randomFirstName =
+                  nameData.elf.femaleFirst[
+                    Math.floor(Math.random() * nameData.elf.femaleFirst.length)
+                  ];
+
+                let randomLastName =
+                  nameData.elf.lastName[
+                    Math.floor(Math.random() * nameData.elf.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "gnome") {
-              let randomName =
-                nameData.gnome.femaleFirst[
-                  Math.floor(Math.random() * nameData.gnome.femaleFirst.length)
-                ] +
-                " " +
-                nameData.gnome.lastName[
-                  Math.floor(Math.random() * nameData.gnome.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "gnome") {
+                let randomFirstName =
+                  nameData.gnome.femaleFirst[
+                    Math.floor(
+                      Math.random() * nameData.gnome.femaleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.gnome.lastName[
+                    Math.floor(Math.random() * nameData.gnome.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "goblin") {
-              let randomName =
-                nameData.goblin.femaleFirst[
-                  Math.floor(Math.random() * nameData.goblin.femaleFirst.length)
-                ] +
-                " " +
-                nameData.goblin.lastName[
-                  Math.floor(Math.random() * nameData.goblin.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "goblin") {
+                let randomFirstName =
+                  nameData.goblin.femaleFirst[
+                    Math.floor(
+                      Math.random() * nameData.goblin.femaleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.goblin.lastName[
+                    Math.floor(Math.random() * nameData.goblin.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "halfElf") {
-              let randomName =
-                nameData.halfElf.femaleFirst[
-                  Math.floor(
-                    Math.random() * nameData.halfElf.femaleFirst.length
-                  )
-                ] +
-                " " +
-                nameData.halfElf.lastName[
-                  Math.floor(Math.random() * nameData.halfElf.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "halfElf") {
+                let randomFirstName =
+                  nameData.halfElf.femaleFirst[
+                    Math.floor(
+                      Math.random() * nameData.halfElf.femaleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.halfElf.lastName[
+                    Math.floor(Math.random() * nameData.halfElf.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "halfling") {
-              let randomName =
-                nameData.halfling.femaleFirst[
-                  Math.floor(
-                    Math.random() * nameData.halfling.femaleFirst.length
-                  )
-                ] +
-                " " +
-                nameData.halfling.lastName[
-                  Math.floor(Math.random() * nameData.halfling.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "halfling") {
+                let randomFirstName =
+                  nameData.halfling.femaleFirst[
+                    Math.floor(
+                      Math.random() * nameData.halfling.femaleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.halfling.lastName.prefix[
+                    Math.floor(
+                      Math.random() * nameData.halfling.lastName.prefix.length
+                    )
+                  ] +
+                  "" +
+                  nameData.halfling.lastName.suffix[
+                    Math.floor(
+                      Math.random() * nameData.halfling.lastName.suffix.length
+                    )
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "halfOrc") {
-              let randomName =
-                nameData.halfOrc.femaleFirst[
-                  Math.floor(
-                    Math.random() * nameData.halfOrc.femaleFirst.length
-                  )
-                ] +
-                " " +
-                nameData.halfOrc.lastName[
-                  Math.floor(Math.random() * nameData.halfOrc.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "halfOrc") {
+                let randomFirstName =
+                  nameData.halfOrc.femaleFirst[
+                    Math.floor(
+                      Math.random() * nameData.halfOrc.femaleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.halfOrc.lastName[
+                    Math.floor(Math.random() * nameData.halfOrc.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "human") {
-              let randomName =
-                nameData.human.femaleFirst[
-                  Math.floor(Math.random() * nameData.human.femaleFirst.length)
-                ] +
-                " " +
-                nameData.human.lastName[
-                  Math.floor(Math.random() * nameData.human.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "human") {
+                let randomFirstName =
+                  nameData.human.femaleFirst[
+                    Math.floor(
+                      Math.random() * nameData.human.femaleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.human.lastName[
+                    Math.floor(Math.random() * nameData.human.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "orc") {
-              let randomName =
-                nameData.orc.femaleFirst[
-                  Math.floor(Math.random() * nameData.orc.femaleFirst.length)
-                ] +
-                " " +
-                nameData.orc.lastName[
-                  Math.floor(Math.random() * nameData.orc.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "orc") {
+                let randomFirstName =
+                  nameData.orc.femaleFirst.prefix[
+                    Math.floor(
+                      Math.random() * nameData.orc.femaleFirst.prefix.length
+                    )
+                  ] +
+                  "'" +
+                  nameData.orc.suffix[
+                    Math.floor(Math.random() * nameData.orc.suffix.length)
+                  ];
+
+                let randomLastName =
+                  nameData.orc.lastName[
+                    Math.floor(Math.random() * nameData.orc.lastName.length)
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             } else if (values.npcRace === "tiefling") {
-              let randomName =
-                nameData.tiefling.femaleFirst[
-                  Math.floor(
-                    Math.random() * nameData.tiefling.femaleFirst.length
-                  )
-                ] +
-                " " +
-                nameData.tiefling.lastName[
-                  Math.floor(Math.random() * nameData.tiefling.lastName.length)
-                ];
-              setFieldValue("npcName", randomName);
+              if (values.npcRace === "tiefling") {
+                let randomFirstName =
+                  nameData.tiefling.femaleFirst[
+                    Math.floor(
+                      Math.random() * nameData.tiefling.femaleFirst.length
+                    )
+                  ];
+
+                let randomLastName =
+                  nameData.tiefling.lastName[
+                    Math.floor(
+                      Math.random() * nameData.tiefling.lastName.length
+                    )
+                  ];
+                setFieldValue("npcFirstName", randomFirstName);
+                setFieldValue("npcLastName", randomLastName);
+              }
             }
 
             // } else {
@@ -406,22 +525,49 @@ const CharacterCreationForm = ({
         onBlur={handleBlur}
       >
         Random
-      </button>
+      </Button>
+      <label htmlFor="npcFirstName">First</label>
+      {touched.npcFirstName && errors.npcFirstName ? (
+        <StyledErrorDiv>{errors.npcFirstName}</StyledErrorDiv>
+      ) : null}
       <Field
-        id="npcName"
-        name="npcName"
+        id="npcFirstName"
+        name="npcFirstName"
         type="input"
         onChange={handleChange}
         onBlur={handleBlur}
-        value={values.npcName}
+        value={values.npcFirstName}
+        locked={false}
+        placeholder="First Name"
       />
+      <label htmlFor="npcLastName">Last/Clan</label>
+      {touched.npcLastName && errors.npcLastName ? (
+        <StyledErrorDiv>{errors.npcLastName}</StyledErrorDiv>
+      ) : null}
+      <Field
+        id="npcLastName"
+        name="npcLastName"
+        type="input"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.npcLastName}
+        locked={false}
+        placeholder="Last Name/ Clan Name"
+      />
+      {/* <Field
+        id="npcNameMeaning"
+        name="npcNameMeaning"
+        onChange={handleChange}
+        onBlur={handleBlur}
+        value={values.npcNameMeaning}
+      /> */}
 
       <label htmlFor="npcProfession">Profession</label>
       {touched.npcProfession && errors.npcProfession ? (
         <StyledErrorDiv>{errors.npcProfession}</StyledErrorDiv>
       ) : null}
 
-      <button
+      <Button
         id="npcProfession"
         name="npcProfession"
         type="button"
@@ -435,7 +581,7 @@ const CharacterCreationForm = ({
         onBlur={handleBlur}
       >
         Random
-      </button>
+      </Button>
       <Field
         id="npcProfession"
         name="npcProfession"
@@ -452,20 +598,50 @@ const CharacterCreationForm = ({
         onChange={setFieldValue}
         onBlur={handleBlur}
       />
-      <button
+      <Button
         type="button"
         className="outline"
         onClick={handleReset}
         disabled={!dirty || isSubmitting}
       >
         Reset
-      </button>
-      <button type="submit" disabled={isSubmitting}>
+      </Button>
+      <Button type="submit" disabled={isSubmitting}>
         Submit
-      </button>
+      </Button>
     </Form>
   );
 };
 const CharacterCreation = formikEnhancer(CharacterCreationForm);
 
+const StyledErrorDiv = styled.div`
+  color: red;
+  transition: all 0.1s;
+  padding: 0rem 2rem
+  font-size: 1.2rem;
+  font-weight: 500;
+  bottom: 0;
+  left: 0;
+  positon: absolute;
+`;
+
+const Button = styled.button`
+  display: flex;
+  background: #ffffff;
+  color: #494949 !important;
+  margin: 10px auto;
+  padding: 10px;
+  border: 4px solid #494949 !important;
+  text-transform: uppercase;
+  text-decoration: none;
+
+  transition: all 0.4s ease 0s;
+
+  :hover {
+    background: #179940;
+    color: #ffffff !important;
+    border-color: #179940 !important;
+    transition: all 0.4s ease 0s;
+  }
+`;
 export default CharacterCreation;
